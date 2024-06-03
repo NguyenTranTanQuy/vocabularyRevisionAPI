@@ -11,11 +11,9 @@ import java.util.Optional;
 @Component
 public class LevelService {
     private final LevelRepository levelRepository;
-    private final UserRepository userRepository;
 
-    public LevelService(LevelRepository levelRepository, UserRepository userRepository) {
+    public LevelService(LevelRepository levelRepository) {
         this.levelRepository = levelRepository;
-        this.userRepository = userRepository;
     }
 
     public List<Level> getAllLevels() {

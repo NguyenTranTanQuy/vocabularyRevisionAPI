@@ -1,6 +1,8 @@
 package com.group32.vocabularyRevisionAPI.Controller;
 
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
+import com.group32.vocabularyRevisionAPI.DTO.DetailedLevel.DetailedLevelConverter;
+import com.group32.vocabularyRevisionAPI.DTO.DetailedLevel.DetailedLevelDTO;
 import com.group32.vocabularyRevisionAPI.DTO.Level.LevelConverter;
 import com.group32.vocabularyRevisionAPI.DTO.Level.LevelDTO;
 import com.group32.vocabularyRevisionAPI.Model.DetailedLevel;
@@ -30,27 +32,27 @@ public class DetailedLevelController {
             responseData.setData(LevelConverter.toDTO(level));
         } else {
             responseData.setStatus(300);
-            responseData.setMessage("The username "+ username + " doesn't exists!");
+            responseData.setMessage("The username " + username + " doesn't exists!");
         }
 
         return  responseData;
     }
 
-//    @PostMapping(path = "/level-up")
-//    @ResponseBody
-//    public ResponseData levelUp(@RequestParam String username) {
-//        DetailedLevel detailedLevel = detailedLevelService.levelUp(username);
-//        ResponseData responseData = new ResponseData();
-//
-//        if (detailedLevel != null) {
-//            responseData.setStatus(200);
-//            responseData.setMessage("Level up for user successfully");
-//            responseData.setData(LevelConverter.toDTO(detailedLevel));
-//        } else {
-//            responseData.setStatus(300);
-//            responseData.setMessage("The username "+ username + " doesn't exists!");
-//        }
-//
-//        return responseData;
-//    }
+    @PostMapping(path = "/level-up")
+    @ResponseBody
+    public ResponseData levelUp(@RequestParam String username) {
+        DetailedLevel detailedLevel = detailedLevelService.levelUp(username);
+        ResponseData responseData = new ResponseData();
+
+        if (detailedLevel != null) {
+            responseData.setStatus(200);
+            responseData.setMessage("Level up for user successfully");
+            responseData.setData(DetailedLevelConverter.toDTO(detailedLevel));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The username "+ username + " doesn't exists!");
+        }
+
+        return responseData;
+    }
 }

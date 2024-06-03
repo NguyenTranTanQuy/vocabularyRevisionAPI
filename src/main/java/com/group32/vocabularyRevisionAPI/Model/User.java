@@ -28,8 +28,8 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
 
-    @OneToMany(mappedBy = "user")
-    private List<Folder> folderList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<Folder> folderList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<DetailedLevel> detailedLevelList = new ArrayList<>();
