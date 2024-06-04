@@ -3,16 +3,13 @@ package com.group32.vocabularyRevisionAPI.Controller;
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
 import com.group32.vocabularyRevisionAPI.DTO.Level.LevelConverter;
 import com.group32.vocabularyRevisionAPI.DTO.Level.LevelDTO;
-import com.group32.vocabularyRevisionAPI.DTO.User.UserConverter;
-import com.group32.vocabularyRevisionAPI.DTO.User.UserDTO;
 import com.group32.vocabularyRevisionAPI.Model.Level;
-import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Service.LevelService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/level")
 public class LevelController {

@@ -24,6 +24,6 @@ public class Vocabulary {
     @JoinColumn(name="vocabularyListID")
     private VocabularyLists vocabularyLists;
 
-    @OneToMany(mappedBy = "vocabulary")
+    @OneToMany(mappedBy = "vocabulary", cascade = CascadeType.MERGE)
     private List<UserProgress> userProgressList = new ArrayList<>();
 }

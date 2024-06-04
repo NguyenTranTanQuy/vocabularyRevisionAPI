@@ -24,6 +24,6 @@ public class VocabularyLists {
     @JoinColumn(name="folderID")
     private Folder folder;
 
-    @OneToMany(mappedBy = "vocabularyLists")
+    @OneToMany(mappedBy = "vocabularyLists", cascade = CascadeType.MERGE)
     private List<Vocabulary> vocabularyList = new ArrayList<>();
 }

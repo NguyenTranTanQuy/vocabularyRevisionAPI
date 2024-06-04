@@ -20,6 +20,6 @@ public class Level {
     private String level_name;
     private int experience;
 
-    @OneToMany(mappedBy = "level")
+    @OneToMany(mappedBy = "level", cascade = CascadeType.MERGE)
     private List<DetailedLevel> detailedLevelList = new ArrayList<>();
 }

@@ -32,9 +32,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Folder> folderList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<DetailedLevel> detailedLevelList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<UserProgress> userProgressList = new ArrayList<>();
 }

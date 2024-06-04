@@ -59,8 +59,8 @@ public class UserService {
         return user;
     }
 
-    public User updateUser(User user) {
-        User user_ =  userRepository.findByUsername(user.getUsername()).orElse(null);
+    public User updateUser(User user, String username) {
+        User user_ =  userRepository.findByUsername(username).orElse(null);
         if (user_ == null) return null;
         user_.setFirst_name(user.getFirst_name());
         user_.setLast_name(user.getLast_name());

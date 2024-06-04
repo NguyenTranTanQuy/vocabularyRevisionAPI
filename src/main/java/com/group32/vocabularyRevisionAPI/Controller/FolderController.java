@@ -4,13 +4,13 @@ import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
 import com.group32.vocabularyRevisionAPI.DTO.Folder.FolderConverter;
 import com.group32.vocabularyRevisionAPI.DTO.Folder.FolderDTO;
 import com.group32.vocabularyRevisionAPI.Model.Folder;
-import com.group32.vocabularyRevisionAPI.Model.Level;
 import com.group32.vocabularyRevisionAPI.Service.FolderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/folder")
 public class FolderController {

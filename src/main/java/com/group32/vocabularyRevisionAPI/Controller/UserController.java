@@ -49,8 +49,8 @@ public class UserController {
 
     @PutMapping(path = "/{username}")
     @ResponseBody
-    public ResponseData updateUser(@RequestBody User user) {
-        User user_ = userService.updateUser(user);
+    public ResponseData updateUser(@RequestBody User user, @PathVariable("username") String username) {
+        User user_ = userService.updateUser(user, username);
 
         ResponseData responseData = new ResponseData();
         if(user_ != null) {
@@ -59,7 +59,7 @@ public class UserController {
             responseData.setData(UserConverter.toDTO(user_));
         } else {
             responseData.setStatus(300);
-            responseData.setMessage("The username " + user.getUsername() + " does not exists!");
+            responseData.setMessage("The username " + username + " does not exists!");
         }
         return responseData;
     }
