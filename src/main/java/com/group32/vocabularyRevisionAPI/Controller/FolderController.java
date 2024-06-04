@@ -22,11 +22,18 @@ public class FolderController {
 
     @GetMapping(path = "/all")
     public ResponseData getAllFolderByUsername(@RequestParam String username) {
-        List<FolderDTO> folderDTOList = folderService.getAllFolderByUsername(username).stream().map(FolderConverter::toDTO).toList();
+        List<Folder> folderList = folderService.getAllFolderByUsername(username);
         ResponseData responseData = new ResponseData();
-        responseData.setStatus(200);
-        responseData.setMessage("Get all folder of user successfully");
-        responseData.setData(Collections.singletonList(folderDTOList));
+        if(folderList != null) {
+            List<FolderDTO> folderDTOList = folderList.stream().map(FolderConverter::toDTO).toList();
+            responseData.setStatus(200);
+            responseData.setMessage("Get all folder of user successfully");
+            responseData.setData(Collections.singletonList(folderDTOList));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The username " + username + " does not exists!");
+        }
+
         return responseData;
     }
 
@@ -37,7 +44,7 @@ public class FolderController {
         ResponseData responseData = new ResponseData();
         if(folder_ != null) {
             responseData.setStatus(200);
-            responseData.setMessage("Added level successfully");
+            responseData.setMessage("Added folder successfully");
             responseData.setData(FolderConverter.toDTO(folder_));
         } else {
             responseData.setStatus(300);

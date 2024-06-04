@@ -19,4 +19,5 @@ public class UserDTO {
     private String email;
     private Date dob;
     private Date created_at;
+    private Long experience;
 }

@@ -14,7 +14,7 @@ public class UserConverter {
         userDTO.setEmail(user.getEmail());
         userDTO.setDob(user.getDob());
         userDTO.setCreated_at(user.getCreated_at());
-
+        userDTO.setExperience(user.getExperience());
         return userDTO;
     }
 
@@ -29,6 +29,7 @@ public class UserConverter {
         user.setEmail(userDTO.getEmail());
         user.setDob(userDTO.getDob());
         user.setCreated_at(userDTO.getCreated_at());
+        user.setExperience(userDTO.getExperience());
         return user;
     }
 }

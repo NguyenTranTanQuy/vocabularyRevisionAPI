@@ -56,12 +56,26 @@ public class UserController {
         if(user_ != null) {
             responseData.setStatus(200);
             responseData.setMessage("Updated user successfully");
-            responseData.setData(user_);
+            responseData.setData(UserConverter.toDTO(user_));
         } else {
             responseData.setStatus(300);
             responseData.setMessage("The username " + user.getUsername() + " does not exists!");
         }
+        return responseData;
+    }
 
+    @PutMapping("/{username}/experience")
+    public ResponseData updateExperience(@PathVariable("username") String username, @RequestParam Long experience) {
+        User user = userService.updateExperience(username, experience);
+        ResponseData responseData = new ResponseData();
+        if(user != null) {
+            responseData.setStatus(200);
+            responseData.setMessage("Updated the experience of user successfully");
+            responseData.setData(UserConverter.toDTO(user));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The username " + user.getUsername() + " does not exists!");
+        }
         return responseData;
     }
 }

@@ -17,11 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final LevelRepository levelRepository;
     private final DetailedLevelRepository detailedLevelRepository;
+    private final DetailedLevelService detailedLevelService;
 
-    public UserService(UserRepository userRepository, LevelRepository levelRepository, DetailedLevelRepository detailedLevelRepository) {
+    public UserService(UserRepository userRepository, LevelRepository levelRepository, DetailedLevelRepository detailedLevelRepository, DetailedLevelService detailedLevelService) {
         this.userRepository = userRepository;
         this.levelRepository = levelRepository;
         this.detailedLevelRepository = detailedLevelRepository;
+        this.detailedLevelService = detailedLevelService;
     }
 
     public List<User> getAllUsers() {
@@ -30,8 +32,7 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         Optional<User> userByUsername =  userRepository.findByUsername(username);
-        if (userByUsername.isEmpty()) return null;
-        return userRepository.findByUsername(username).get();
+        return userByUsername.orElse(null);
     }
 
     public User addUser(User user) {
@@ -39,6 +40,7 @@ public class UserService {
         if (userByUsername.isPresent()) return null;
 
         user.setCreated_at(new Date());
+        user.setExperience(0L);
         userRepository.save(user);
 
         DetailedLevel detailedLevel = new DetailedLevel();
@@ -58,9 +60,26 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        Optional<User> userByUsername =  userRepository.findByUsername(user.getUsername());
-        if (userByUsername.isEmpty()) return null;
+        User user_ =  userRepository.findByUsername(user.getUsername()).orElse(null);
+        if (user_ == null) return null;
+        user_.setFirst_name(user.getFirst_name());
+        user_.setLast_name(user.getLast_name());
+        user_.setEmail(user.getEmail());
+        user_.setDob(user.getDob());
+        userRepository.save(user_);
+        return user_;
+    }
 
+    public User updateExperience(String username, Long experience) {
+        User user =  userRepository.findByUsername(username).orElse(null);
+        if (user == null) return null;
+        user.setExperience(user.getExperience() + experience);
+        Level currentLevel = detailedLevelService.getCurrentLevel(username);
+        Level nextLevel = levelRepository.findById(currentLevel.getLevelID() + 1L).orElse(null);
+
+        if(nextLevel != null && nextLevel.getExperience() <= user.getExperience()) {
+            detailedLevelService.levelUp(username);
+        }
         userRepository.save(user);
         return user;
     }

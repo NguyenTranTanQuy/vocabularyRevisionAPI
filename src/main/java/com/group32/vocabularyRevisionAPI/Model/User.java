@@ -27,6 +27,7 @@ public class User {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
+    private Long experience;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Folder> folderList = new ArrayList<>();

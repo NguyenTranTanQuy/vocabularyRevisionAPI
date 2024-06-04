@@ -10,6 +10,7 @@ import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -25,7 +26,7 @@ public class DetailedLevelService {
     }
 
     public Level getCurrentLevel(String username) {
-        Long levelID = detailedLevelRepository.getCurrentLevelByUsername(username);
+        Long levelID =  detailedLevelRepository.getCurrentLevelByUsername(username);
         Optional<Level> level = levelRepository.findById(levelID);
         return level.orElse(null);
     }

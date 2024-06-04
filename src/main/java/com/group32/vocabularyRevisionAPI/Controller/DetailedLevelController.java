@@ -38,9 +38,9 @@ public class DetailedLevelController {
         return  responseData;
     }
 
-    @PostMapping(path = "/level-up")
+    @PostMapping(path = "/level-up/{username}")
     @ResponseBody
-    public ResponseData levelUp(@RequestParam String username) {
+    public ResponseData levelUp(@PathVariable("username") String username) {
         DetailedLevel detailedLevel = detailedLevelService.levelUp(username);
         ResponseData responseData = new ResponseData();
 

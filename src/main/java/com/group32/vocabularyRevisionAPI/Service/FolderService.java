@@ -21,6 +21,8 @@ public class FolderService {
     }
 
     public List<Folder> getAllFolderByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if(user == null) return null;
         return folderRepository.findAllFolderByUsername(username);
     }
 
