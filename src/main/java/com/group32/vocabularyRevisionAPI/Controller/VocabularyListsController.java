@@ -55,6 +55,22 @@ public class VocabularyListsController {
         return responseData;
     }
 
+    @GetMapping(path = "/{username}/all")
+    public ResponseData getAllVocabularyListsByUsername(@PathVariable("username") String username) {
+        List<VocabularyLists> vocabularyLists = vocabularyListsService.getAllVocabularyListsByUsername(username);
+        ResponseData responseData = new ResponseData();
+        if(vocabularyLists != null) {
+            List<VocabularyListsDTO> vocabularyListsDTO = vocabularyLists.stream().map(VocabularyListsConverter::toDTO).toList();
+            responseData.setStatus(200);
+            responseData.setMessage("Get all vocabulary list of user successfully");
+            responseData.setData(Collections.singletonList(vocabularyListsDTO));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The username " + username + " does not exists!");
+        }
+        return responseData;
+    }
+
     @PostMapping(path = "/")
     @ResponseBody
     public ResponseData addVocabularyList(@RequestParam Long folderID, @RequestParam String list_name, @RequestParam String description, @RequestBody List<Vocabulary> vocabularyList) {
