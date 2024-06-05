@@ -3,10 +3,7 @@ package com.group32.vocabularyRevisionAPI.Controller;
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
 import com.group32.vocabularyRevisionAPI.DTO.Vocabulary.VocabularyConverter;
 import com.group32.vocabularyRevisionAPI.DTO.Vocabulary.VocabularyDTO;
-import com.group32.vocabularyRevisionAPI.DTO.VocabularyLists.VocabularyListsConverter;
-import com.group32.vocabularyRevisionAPI.DTO.VocabularyLists.VocabularyListsDTO;
 import com.group32.vocabularyRevisionAPI.Model.Vocabulary;
-import com.group32.vocabularyRevisionAPI.Model.VocabularyLists;
 import com.group32.vocabularyRevisionAPI.Service.VocabularyService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +27,7 @@ public class VocabularyController {
         if(vocabularyList != null) {
             List<VocabularyDTO> vocabularyDTO = vocabularyList.stream().map(VocabularyConverter::toDTO).toList();
             responseData.setStatus(200);
-            responseData.setMessage("Get all folder of user successfully");
+            responseData.setMessage("Get all vocabulary successfully");
             responseData.setData(Collections.singletonList(vocabularyDTO));
         } else {
             responseData.setStatus(300);

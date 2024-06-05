@@ -1,17 +1,37 @@
-version: '3.8'
 services:
   mysql:
-    build: ./SQL
-    container_name: MySQLServer
+    image: mysql:8.0.30
     ports:
-      - "3307:3307"
-  app:
-    build: .
+      - 3307:3306
+    restart: always
     environment:
-      - DB_HOST = ${DB_HOST}
-      - DB_PORT = ${DB_PORT}
-      - DB_PASSWORD = ${DB_PASSWORD}
+      MYSQL_DATABASE: vocabulary_revision
+      MYSQL_USER: user
+      MYSQL_ROOT_PASSWORD: quygl123pk
+      MYSQL_PASSWORD: quygl123pk
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - my-network
+
+  app:
+    build: ./
+    container_name: app
     ports:
       - "8080:8080"
     depends_on:
       - mysql
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/vocabulary_revision?useSSLfalse&allowPublicKeyRetrievaltrue
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: quygl123pk
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  mysql:

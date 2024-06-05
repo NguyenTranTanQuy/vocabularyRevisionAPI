@@ -22,6 +22,10 @@ public class VocabularyListsService {
         this.vocabularyService = vocabularyService;
     }
 
+    public VocabularyLists getVocabularyList(Long vocabularyListID) {
+        return vocabularyListsRepository.findById(vocabularyListID).orElse(null);
+    }
+
     public List<VocabularyLists> getAllVocabularyListsByFolderID(Long folderID) {
         Folder folder = folderRepository.findById(folderID).orElse(null);
         if(folder == null) return null;
