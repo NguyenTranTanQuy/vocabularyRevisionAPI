@@ -20,6 +20,10 @@ public class FolderService {
         this.userRepository = userRepository;
     }
 
+    public Folder getFolder(Long folderID) {
+        return folderRepository.findById(folderID).orElse(null);
+    }
+
     public List<Folder> getAllFolderByUsername(String username) {
         User user = userRepository.findByUsername(username).orElse(null);
         if(user == null) return null;
