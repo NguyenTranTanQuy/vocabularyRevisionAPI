@@ -12,6 +12,7 @@
 	<artifactId>vocabularyRevisionAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>vocabularyRevisionAPI</name>
+	<packaging>jar</packaging>
 	<description>Code API for Vocabulary Revision Project</description>
 	<properties>
 		<java.version>17</java.version>

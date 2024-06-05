@@ -14,10 +14,12 @@ import java.util.List;
 public class VocabularyListsService {
     private final VocabularyListsRepository vocabularyListsRepository;
     private final FolderRepository folderRepository;
+    private final VocabularyService vocabularyService;
 
-    public VocabularyListsService(VocabularyListsRepository vocabularyListsRepository, FolderRepository folderRepository) {
+    public VocabularyListsService(VocabularyListsRepository vocabularyListsRepository, FolderRepository folderRepository, VocabularyService vocabularyService) {
         this.vocabularyListsRepository = vocabularyListsRepository;
         this.folderRepository = folderRepository;
+        this.vocabularyService = vocabularyService;
     }
 
     public List<VocabularyLists> getAllVocabularyListsByFolderID(Long folderID) {
@@ -35,8 +37,15 @@ public class VocabularyListsService {
         if(folder == null) return null;
         vocabularyLists.setFolder(folder);
         vocabularyListsRepository.save(vocabularyLists);
+        Long vocabularyListID = folder.getVocabularyLists().get(folder.getVocabularyLists().size() - 1).getVocabularyListID();
 
-
+        for (Vocabulary vocabulary : vocabularyList) {
+            vocabularyService.addVocabulary(vocabularyListID, vocabulary);
+        }
         return vocabularyLists;
+    }
+
+    public VocabularyLists updateVocabularyList(VocabularyLists vocabularyLists, List<Vocabulary> vocabularyList) {
+        return null;
     }
 }
