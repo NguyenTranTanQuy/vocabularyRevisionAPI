@@ -8,9 +8,12 @@ import com.group32.vocabularyRevisionAPI.Repository.FolderRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import com.group32.vocabularyRevisionAPI.Repository.VocabularyListsRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class VocabularyListsService {
@@ -48,6 +51,7 @@ public class VocabularyListsService {
         return vocabularyLists;
     }
 
+    @Transactional
     public VocabularyLists addVocabularyList(Long folderID, String list_name, String description, List<Vocabulary> vocabularyList) {
         VocabularyLists vocabularyLists = new VocabularyLists();
         vocabularyLists.setList_name(list_name);
@@ -64,7 +68,34 @@ public class VocabularyListsService {
         return vocabularyLists;
     }
 
-    public VocabularyLists updateVocabularyList(VocabularyLists vocabularyLists, List<Vocabulary> vocabularyList) {
-        return null;
+    @Transactional
+    public VocabularyLists updateVocabularyList(Long vocabularyListID, String newName, String newDescription, List<Vocabulary> newVocabularyList) {
+        VocabularyLists vocabularyLists = vocabularyListsRepository.findById(vocabularyListID).orElse(null);
+
+        if (vocabularyLists == null) return null;
+
+        vocabularyLists.setList_name(newName);
+        vocabularyLists.setDescription(newDescription);
+
+        vocabularyListsRepository.save(vocabularyLists);
+        List<Vocabulary> existingVocabularyList = vocabularyService.getAllVocabularyByVocabularyListID(vocabularyListID);
+
+        Set<Long> newVocabularyIDs = new HashSet<>();
+        for (Vocabulary vocabulary : newVocabularyList) {
+            newVocabularyIDs.add(vocabulary.getVocabularyID());
+        }
+
+        for (Vocabulary existingVocabulary : existingVocabularyList) {
+            if (!newVocabularyIDs.contains(existingVocabulary.getVocabularyID())) {
+                vocabularyService.deleteVocabulary(existingVocabulary.getVocabularyID());
+            }
+        }
+
+
+        for (Vocabulary vocabulary : newVocabularyList) {
+            vocabularyService.addVocabulary(vocabularyListID, vocabulary);
+        }
+
+        return vocabularyLists;
     }
 }

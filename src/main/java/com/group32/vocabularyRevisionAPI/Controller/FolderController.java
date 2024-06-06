@@ -85,4 +85,21 @@ public class FolderController {
 
         return responseData;
     }
+
+    @DeleteMapping(path = "/{folderID}")
+    @ResponseBody
+    public ResponseData deleteFolder(@PathVariable("folderID") Long folderID) {
+        Folder folder = folderService.deleteFolder(folderID);
+        ResponseData responseData = new ResponseData();
+        if(folder != null) {
+            responseData.setStatus(200);
+            responseData.setMessage("Updated folder successfully");
+            responseData.setData(FolderConverter.toDTO(folder));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The folder ID " + folderID + " does not exists!");
+        }
+
+        return responseData;
+    }
 }

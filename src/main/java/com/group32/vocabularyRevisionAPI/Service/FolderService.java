@@ -6,6 +6,7 @@ import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Repository.FolderRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class FolderService {
         return folderRepository.findAllFolderByUsername(username);
     }
 
+    @Transactional
     public Folder addFolder(String folderName, String description, String username) {
         Folder folder = new Folder();
         folder.setFolder_name(folderName);
@@ -41,6 +43,7 @@ public class FolderService {
         return folder;
     }
 
+    @Transactional
     public Folder updateFolder(Folder folder, String username) {
         Folder folder_ =  folderRepository.findById(folder.getFolderID()).orElse(null);
         if (folder_ == null) return null;
@@ -51,6 +54,14 @@ public class FolderService {
         folder.setUser(user);
         folderRepository.save(folder);
 
+        return folder;
+    }
+
+    @Transactional
+    public Folder deleteFolder(Long folderID) {
+        Folder folder = folderRepository.findById(folderID).orElse(null);
+        if (folder == null) return null;
+        folderRepository.delete(folder);
         return folder;
     }
 }

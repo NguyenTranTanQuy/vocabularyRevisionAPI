@@ -24,6 +24,6 @@ public class Folder {
     @JoinColumn(name="username")
     private User user;
 
-    @OneToMany(mappedBy = "folder")
+    @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL)
     private List<VocabularyLists> vocabularyLists = new ArrayList<>();
 }

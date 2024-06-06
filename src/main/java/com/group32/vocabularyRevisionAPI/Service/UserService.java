@@ -8,6 +8,7 @@ import com.group32.vocabularyRevisionAPI.Repository.DetailedLevelRepository;
 import com.group32.vocabularyRevisionAPI.Repository.LevelRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ public class UserService {
         return userByUsername.orElse(null);
     }
 
+    @Transactional
     public User addUser(User user) {
         Optional<User> userByUsername =  userRepository.findByUsername(user.getUsername());
         if (userByUsername.isPresent()) return null;
@@ -59,6 +61,7 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public User updateUser(User user, String username) {
         User user_ =  userRepository.findByUsername(username).orElse(null);
         if (user_ == null) return null;
@@ -70,6 +73,7 @@ public class UserService {
         return user_;
     }
 
+    @Transactional
     public User updateExperience(String username, Long experience) {
         User user =  userRepository.findByUsername(username).orElse(null);
         if (user == null) return null;
@@ -94,6 +98,7 @@ public class UserService {
         return false;
     }
 
+    @Transactional
     public boolean resetPassword(String username, String password, String email) {
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isEmpty()) return false;

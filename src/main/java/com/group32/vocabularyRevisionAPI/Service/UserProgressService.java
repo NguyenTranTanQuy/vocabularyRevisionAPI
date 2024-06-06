@@ -8,6 +8,7 @@ import com.group32.vocabularyRevisionAPI.Repository.UserProgressRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import com.group32.vocabularyRevisionAPI.Repository.VocabularyRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class UserProgressService {
         this.vocabularyRepository = vocabularyRepository;
     }
 
+    @Transactional
     public UserProgress addUserProgress(String username, Long vocabularyID, boolean isTrue) {
         User user = userRepository.findByUsername(username).orElse(null);
         Vocabulary vocabulary = vocabularyRepository.findById(vocabularyID).orElse(null);

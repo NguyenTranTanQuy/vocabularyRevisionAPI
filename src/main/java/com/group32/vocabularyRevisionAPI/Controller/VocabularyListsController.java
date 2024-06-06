@@ -86,4 +86,21 @@ public class VocabularyListsController {
         }
         return responseData;
     }
+
+    @PutMapping(path = "/")
+    @ResponseBody
+    public ResponseData updateVocabularyList(@RequestParam Long vocabularyListID, @RequestParam String newName, @RequestParam String newDescription, @RequestBody List<Vocabulary> newVocabularyList) {
+        VocabularyLists vocabularyLists = vocabularyListsService.updateVocabularyList(vocabularyListID, newName, newDescription, newVocabularyList);
+
+        ResponseData responseData = new ResponseData();
+        if(vocabularyLists != null) {
+            responseData.setStatus(200);
+            responseData.setMessage("Updated a vocabulary list successfully");
+            responseData.setData(VocabularyListsConverter.toDTO(vocabularyLists));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The vocabulary list ID: " + vocabularyListID + " does not exists!");
+        }
+        return responseData;
+    }
 }

@@ -2,8 +2,8 @@ package com.group32.vocabularyRevisionAPI.Service;
 
 import com.group32.vocabularyRevisionAPI.Model.Level;
 import com.group32.vocabularyRevisionAPI.Repository.LevelRepository;
-import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +20,7 @@ public class LevelService {
         return levelRepository.findAll();
     }
 
+    @Transactional
     public Level addLevel(String levelName, int experience) {
         Level level = new Level();
         level.setLevel_name(levelName);
@@ -29,6 +30,7 @@ public class LevelService {
         return level;
     }
 
+    @Transactional
     public Level updateLevel(Level level) {
         Optional<Level> levelFindByID =  levelRepository.findById(level.getLevelID());
         if (levelFindByID.isEmpty()) return null;
