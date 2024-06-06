@@ -103,4 +103,21 @@ public class VocabularyListsController {
         }
         return responseData;
     }
+
+    @DeleteMapping(path = "/{vocabularyListID}")
+    @ResponseBody
+    public ResponseData deleteFolder(@PathVariable("vocabularyListID") Long vocabularyListID) {
+        VocabularyLists vocabularyLists = vocabularyListsService.deleteVocabularyList(vocabularyListID);
+        ResponseData responseData = new ResponseData();
+        if(vocabularyLists != null) {
+            responseData.setStatus(200);
+            responseData.setMessage("Deleted a vocabulary list successfully");
+            responseData.setData(VocabularyListsConverter.toDTO(vocabularyLists));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The vocabulary list ID " + vocabularyListID + " does not exists!");
+        }
+
+        return responseData;
+    }
 }

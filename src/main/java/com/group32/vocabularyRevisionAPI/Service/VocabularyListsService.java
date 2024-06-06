@@ -98,4 +98,12 @@ public class VocabularyListsService {
 
         return vocabularyLists;
     }
+
+    @Transactional
+    public VocabularyLists deleteVocabularyList(Long vocabularyListID) {
+        VocabularyLists vocabularyLists = vocabularyListsRepository.findById(vocabularyListID).orElse(null);
+        if (vocabularyLists == null) return null;
+        vocabularyListsRepository.delete(vocabularyLists);
+        return vocabularyLists;
+    }
 }

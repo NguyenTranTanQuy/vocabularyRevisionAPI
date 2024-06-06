@@ -93,7 +93,7 @@ public class FolderController {
         ResponseData responseData = new ResponseData();
         if(folder != null) {
             responseData.setStatus(200);
-            responseData.setMessage("Updated folder successfully");
+            responseData.setMessage("Deleted a folder successfully");
             responseData.setData(FolderConverter.toDTO(folder));
         } else {
             responseData.setStatus(300);
