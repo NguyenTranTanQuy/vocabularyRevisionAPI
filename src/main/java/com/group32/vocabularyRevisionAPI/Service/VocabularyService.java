@@ -30,7 +30,7 @@ public class VocabularyService {
 
         return vocabularyRepository.findAllVocabularyByVocabularyListID(vocabularyListID);
     }
-
+    @Transactional()
     public List<Vocabulary> getAllUnlearnedVocabulary(String username) {
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) return null;
