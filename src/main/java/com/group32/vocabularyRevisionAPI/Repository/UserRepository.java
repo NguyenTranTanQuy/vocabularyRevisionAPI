@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
@@ -17,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Modifying
     @Query("UPDATE User u SET u.password = :password WHERE u.username = :username")
     void resetPassword(String username, String password);
+
+    @Query("SELECT u FROM User u ORDER BY u.experience DESC LIMIT 10")
+    List<User> getLevelRanking();
 }

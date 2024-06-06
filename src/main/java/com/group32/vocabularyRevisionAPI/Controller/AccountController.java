@@ -1,6 +1,7 @@
 package com.group32.vocabularyRevisionAPI.Controller;
 
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
+import com.group32.vocabularyRevisionAPI.DTO.User.UserConverter;
 import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class AccountController {
         if(user_ != null) {
             responseData.setStatus(200);
             responseData.setMessage("Added account successfully");
-            responseData.setData(user_);
+            responseData.setData(UserConverter.toDTO(user_));
         } else {
             responseData.setStatus(301);
             responseData.setMessage("The username "+ user.getUsername() + " does exists!");

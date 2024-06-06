@@ -3,6 +3,7 @@ package com.group32.vocabularyRevisionAPI.Controller;
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
 import com.group32.vocabularyRevisionAPI.DTO.User.UserConverter;
 import com.group32.vocabularyRevisionAPI.DTO.User.UserDTO;
+import com.group32.vocabularyRevisionAPI.Model.Statistics.LevelRanking;
 import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,16 @@ public class UserController {
             responseData.setStatus(300);
             responseData.setMessage("The username " + user.getUsername() + " does not exists!");
         }
+        return responseData;
+    }
+
+    @GetMapping("/level-ranking")
+    public ResponseData getLevelRanking() {
+        List<LevelRanking> levelRankingList = userService.getLevelRanking();
+        ResponseData responseData = new ResponseData();
+        responseData.setStatus(200);
+        responseData.setMessage("Got level ranking of user successfully");
+        responseData.setData(levelRankingList);
         return responseData;
     }
 }

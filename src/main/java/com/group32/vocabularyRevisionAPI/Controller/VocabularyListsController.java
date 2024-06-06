@@ -106,7 +106,7 @@ public class VocabularyListsController {
 
     @DeleteMapping(path = "/{vocabularyListID}")
     @ResponseBody
-    public ResponseData deleteFolder(@PathVariable("vocabularyListID") Long vocabularyListID) {
+    public ResponseData deleteVocabularyList(@PathVariable("vocabularyListID") Long vocabularyListID) {
         VocabularyLists vocabularyLists = vocabularyListsService.deleteVocabularyList(vocabularyListID);
         ResponseData responseData = new ResponseData();
         if(vocabularyLists != null) {

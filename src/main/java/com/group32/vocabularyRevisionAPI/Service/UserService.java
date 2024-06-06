@@ -3,6 +3,7 @@ package com.group32.vocabularyRevisionAPI.Service;
 import com.group32.vocabularyRevisionAPI.Model.DetailedLevel;
 import com.group32.vocabularyRevisionAPI.Model.DetailedLevelKey;
 import com.group32.vocabularyRevisionAPI.Model.Level;
+import com.group32.vocabularyRevisionAPI.Model.Statistics.LevelRanking;
 import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Repository.DetailedLevelRepository;
 import com.group32.vocabularyRevisionAPI.Repository.LevelRepository;
@@ -10,6 +11,7 @@ import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -105,5 +107,24 @@ public class UserService {
         if (!user.get().getEmail().equals(email)) return false;
         userRepository.resetPassword(username, password);
         return true;
+    }
+
+    public List<LevelRanking> getLevelRanking() {
+        List<User> userList = userRepository.getLevelRanking();
+        Level level;
+        LevelRanking levelRanking;
+        List<LevelRanking> levelRankingList = new ArrayList<>();
+        for (User user:userList) {
+            levelRanking = new LevelRanking();
+
+            level = detailedLevelService.getCurrentLevel(user.getUsername());
+            levelRanking.setUsername(user.getUsername());
+            levelRanking.setFirst_name(user.getFirst_name());
+            levelRanking.setLast_name(user.getLast_name());
+            levelRanking.setLevel_name(level.getLevel_name());
+            levelRanking.setExperience(user.getExperience());
+            levelRankingList.add(levelRanking);
+        }
+        return levelRankingList;
     }
 }
