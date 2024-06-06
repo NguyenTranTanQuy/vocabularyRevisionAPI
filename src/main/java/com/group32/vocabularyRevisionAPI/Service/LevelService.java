@@ -32,10 +32,12 @@ public class LevelService {
 
     @Transactional
     public Level updateLevel(Level level) {
-        Optional<Level> levelFindByID =  levelRepository.findById(level.getLevelID());
-        if (levelFindByID.isEmpty()) return null;
+        Level level_ =  levelRepository.findById(level.getLevelID()).orElse(null);
+        if (level_ == null) return null;
 
-        levelRepository.save(level);
+        level_.setLevel_name(level.getLevel_name());
+        level_.setExperience(level.getExperience());
+        levelRepository.save(level_);
         return level;
     }
 }

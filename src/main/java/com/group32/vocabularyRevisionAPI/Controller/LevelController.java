@@ -51,7 +51,7 @@ public class LevelController {
         if(level_ != null) {
             responseData.setStatus(200);
             responseData.setMessage("Updated level successfully");
-            responseData.setData(level_);
+            responseData.setData(LevelConverter.toDTO(level_));
         } else {
             responseData.setStatus(300);
             responseData.setMessage("The level ID " + level.getLevelID() + " does not exists!");

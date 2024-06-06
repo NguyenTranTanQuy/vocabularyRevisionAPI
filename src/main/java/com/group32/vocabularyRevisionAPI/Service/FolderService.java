@@ -44,17 +44,14 @@ public class FolderService {
     }
 
     @Transactional
-    public Folder updateFolder(Folder folder, String username) {
+    public Folder updateFolder(Folder folder) {
         Folder folder_ =  folderRepository.findById(folder.getFolderID()).orElse(null);
         if (folder_ == null) return null;
 
-        User user = userRepository.findByUsername(username).orElse(null);
-        if(user == null) return null;
-
-        folder.setUser(user);
-        folderRepository.save(folder);
-
-        return folder;
+        folder_.setFolder_name(folder.getFolder_name());
+        folder_.setDescription(folder.getDescription());
+        folderRepository.save(folder_);
+        return folder_;
     }
 
     @Transactional

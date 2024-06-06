@@ -70,8 +70,8 @@ public class FolderController {
 
     @PutMapping(path = "/")
     @ResponseBody
-    public ResponseData updateFolder(@RequestBody Folder folder, @RequestParam String username) {
-        Folder folder_ = folderService.updateFolder(folder, username);
+    public ResponseData updateFolder(@RequestBody Folder folder) {
+        Folder folder_ = folderService.updateFolder(folder);
 
         ResponseData responseData = new ResponseData();
         if(folder_ != null) {
@@ -80,7 +80,7 @@ public class FolderController {
             responseData.setData(FolderConverter.toDTO(folder_));
         } else {
             responseData.setStatus(300);
-            responseData.setMessage("The folder ID " + folder_.getFolderID() + " or username "+ username + " does not exists!");
+            responseData.setMessage("The folder ID " + folder_.getFolderID() + " does not exists!");
         }
 
         return responseData;
