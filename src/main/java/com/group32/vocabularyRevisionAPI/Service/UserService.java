@@ -1,13 +1,12 @@
 package com.group32.vocabularyRevisionAPI.Service;
 
-import com.group32.vocabularyRevisionAPI.Model.DetailedLevel;
-import com.group32.vocabularyRevisionAPI.Model.DetailedLevelKey;
-import com.group32.vocabularyRevisionAPI.Model.Level;
+import com.group32.vocabularyRevisionAPI.Model.*;
+import com.group32.vocabularyRevisionAPI.Model.Statistics.LearnedVocabularyRanking;
 import com.group32.vocabularyRevisionAPI.Model.Statistics.LevelRanking;
-import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Repository.DetailedLevelRepository;
 import com.group32.vocabularyRevisionAPI.Repository.LevelRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,15 +14,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Component
 public class UserService {
     private final UserRepository userRepository;
+    private final UserProgressService userProgressService;
     private final LevelRepository levelRepository;
     private final DetailedLevelRepository detailedLevelRepository;
     private final DetailedLevelService detailedLevelService;
 
-    public UserService(UserRepository userRepository, LevelRepository levelRepository, DetailedLevelRepository detailedLevelRepository, DetailedLevelService detailedLevelService) {
+    public UserService(UserRepository userRepository, @Lazy UserProgressService userProgressService, LevelRepository levelRepository, DetailedLevelRepository detailedLevelRepository, DetailedLevelService detailedLevelService) {
         this.userRepository = userRepository;
+        this.userProgressService = userProgressService;
         this.levelRepository = levelRepository;
         this.detailedLevelRepository = detailedLevelRepository;
         this.detailedLevelService = detailedLevelService;
@@ -126,5 +129,27 @@ public class UserService {
             levelRankingList.add(levelRanking);
         }
         return levelRankingList;
+    }
+
+    public List<LearnedVocabularyRanking> getLearnedVocabularyRanking() {
+        List<User> userList = getAllUsers();
+        List<UserProgress> userProgressList;
+        LearnedVocabularyRanking learnedVocabularyRanking;
+        List<LearnedVocabularyRanking> learnedVocabularyRankingList = new ArrayList<>();
+        for (User user:userList) {
+            learnedVocabularyRanking = new LearnedVocabularyRanking();
+
+            userProgressList = userProgressService.getAllUserProgressByUsername(user.getUsername());
+            learnedVocabularyRanking.setUsername(user.getUsername());
+            learnedVocabularyRanking.setFirst_name(user.getFirst_name());
+            learnedVocabularyRanking.setLast_name(user.getLast_name());
+            learnedVocabularyRanking.setLearned_vocabulary(userProgressList.size());
+            learnedVocabularyRankingList.add(learnedVocabularyRanking);
+        }
+        List<LearnedVocabularyRanking> top10Rankings = learnedVocabularyRankingList.stream()
+                .sorted((o1, o2) -> Integer.compare(o2.getLearned_vocabulary(), o1.getLearned_vocabulary()))
+                .limit(10)
+                .toList();
+        return top10Rankings;
     }
 }

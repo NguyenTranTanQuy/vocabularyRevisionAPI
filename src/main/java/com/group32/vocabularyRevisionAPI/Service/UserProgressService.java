@@ -1,5 +1,6 @@
 package com.group32.vocabularyRevisionAPI.Service;
 
+import com.group32.vocabularyRevisionAPI.Controller.UserProgressController;
 import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Model.UserProgress;
 import com.group32.vocabularyRevisionAPI.Model.UserProgressKey;
@@ -7,10 +8,12 @@ import com.group32.vocabularyRevisionAPI.Model.Vocabulary;
 import com.group32.vocabularyRevisionAPI.Repository.UserProgressRepository;
 import com.group32.vocabularyRevisionAPI.Repository.UserRepository;
 import com.group32.vocabularyRevisionAPI.Repository.VocabularyRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class UserProgressService {
@@ -21,11 +24,15 @@ public class UserProgressService {
     private final VocabularyRepository vocabularyRepository;
 
 
-    public UserProgressService(UserProgressRepository userProgressRepository, UserRepository userRepository, UserService userService, VocabularyRepository vocabularyRepository) {
+    public UserProgressService(UserProgressRepository userProgressRepository, UserRepository userRepository, @Lazy UserService userService, VocabularyRepository vocabularyRepository) {
         this.userProgressRepository = userProgressRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.vocabularyRepository = vocabularyRepository;
+    }
+
+    public List<UserProgress> getAllUserProgressByUsername(String username) {
+        return userProgressRepository.findAllUserProgressByUsername(username);
     }
 
     @Transactional
@@ -44,7 +51,6 @@ public class UserProgressService {
             userProgress.setVocabulary(vocabulary);
             userProgress.setCorrect_attempts(0);
             userProgress.setIncorrect_attempts(0);
-            userProgress.setLast_attempt_date(new Date());
         }
 
         if (isTrue) {
@@ -53,6 +59,8 @@ public class UserProgressService {
         } else {
             userProgress.setIncorrect_attempts(userProgress.getIncorrect_attempts() + 1);
         }
+
+        userProgress.setLast_attempt_date(new Date());
 
         userProgressRepository.save(userProgress);
         return userProgress;

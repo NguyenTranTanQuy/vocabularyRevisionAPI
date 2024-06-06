@@ -13,4 +13,8 @@ import java.util.List;
 public interface VocabularyRepository extends JpaRepository<Vocabulary, Long> {
     @Query("SELECT v FROM Vocabulary v WHERE v.vocabularyLists.vocabularyListID = :vocabularyList_id")
     List<Vocabulary> findAllVocabularyByVocabularyListID(@Param("vocabularyList_id") Long vocabularyListID);
+
+    @Query("SELECT v FROM Vocabulary v WHERE v.vocabularyID NOT IN (SELECT up.ID.vocabularyID FROM UserProgress up WHERE up.ID.username = :username)")
+    List<Vocabulary> findAllUnlearnedVocabularyByUsername(String username);
+
 }

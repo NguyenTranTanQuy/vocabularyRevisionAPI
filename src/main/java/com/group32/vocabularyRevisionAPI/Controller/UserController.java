@@ -3,6 +3,7 @@ package com.group32.vocabularyRevisionAPI.Controller;
 import com.group32.vocabularyRevisionAPI.Controller.Model.ResponseData;
 import com.group32.vocabularyRevisionAPI.DTO.User.UserConverter;
 import com.group32.vocabularyRevisionAPI.DTO.User.UserDTO;
+import com.group32.vocabularyRevisionAPI.Model.Statistics.LearnedVocabularyRanking;
 import com.group32.vocabularyRevisionAPI.Model.Statistics.LevelRanking;
 import com.group32.vocabularyRevisionAPI.Model.User;
 import com.group32.vocabularyRevisionAPI.Service.UserService;
@@ -87,6 +88,16 @@ public class UserController {
         responseData.setStatus(200);
         responseData.setMessage("Got level ranking of user successfully");
         responseData.setData(levelRankingList);
+        return responseData;
+    }
+
+    @GetMapping("/learned-vocabulary-ranking")
+    public ResponseData getLearnedVocabularyRanking() {
+        List<LearnedVocabularyRanking> learnedVocabularyRankingList = userService.getLearnedVocabularyRanking();
+        ResponseData responseData = new ResponseData();
+        responseData.setStatus(200);
+        responseData.setMessage("Got learned vocabulary ranking of user successfully");
+        responseData.setData(learnedVocabularyRankingList);
         return responseData;
     }
 }

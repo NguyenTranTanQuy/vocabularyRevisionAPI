@@ -35,4 +35,20 @@ public class VocabularyController {
         }
         return responseData;
     }
+
+    @GetMapping(path = "/unlearned-vocabulary/all")
+    public ResponseData getAllUnlearnedVocabulary(@RequestParam String username) {
+        List<Vocabulary> vocabularyList = vocabularyService.getAllUnlearnedVocabulary(username);
+        ResponseData responseData = new ResponseData();
+        if(vocabularyList != null) {
+            List<VocabularyDTO> vocabularyDTO = vocabularyList.stream().map(VocabularyConverter::toDTO).toList();
+            responseData.setStatus(200);
+            responseData.setMessage("Get all vocabulary successfully");
+            responseData.setData(Collections.singletonList(vocabularyDTO));
+        } else {
+            responseData.setStatus(300);
+            responseData.setMessage("The username " + username + " does not exists!");
+        }
+        return responseData;
+    }
 }
